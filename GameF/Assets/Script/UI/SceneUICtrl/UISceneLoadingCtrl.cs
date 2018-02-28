@@ -35,10 +35,18 @@ public class UISceneLoadingCtrl : UISceneBase
     /// <param name="value"></param>
     public void SetProgressValue(float value)
     {
+        if (m_Progress == null && m_LblProgress == null && m_SprProgressLight == null) return;
         m_Progress.value = value;
         m_LblProgress.text = string.Format("{0}%", (int)(value * 100));
 
-        m_SprProgressLight.transform.localPosition = new Vector3(880* value, 0, 0);
+        m_SprProgressLight.transform.localPosition = new Vector3(880 * value, 0, 0);
     }
 
+    protected override void BeforeOnDestroy()
+    {
+        base.BeforeOnDestroy();
+        m_Progress = null;
+        m_LblProgress = null;
+        m_SprProgressLight = null;
+    }
 }

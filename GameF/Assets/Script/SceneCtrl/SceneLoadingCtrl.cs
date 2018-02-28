@@ -5,8 +5,8 @@
 //===================================================
 using UnityEngine;
 using System.Collections;
-
-public class LoadingSceneCtrl : MonoBehaviour 
+using UnityEngine.SceneManagement;
+public class SceneLoadingCtrl : MonoBehaviour
 {
     /// <summary>
     /// UI场景控制器
@@ -21,10 +21,23 @@ public class LoadingSceneCtrl : MonoBehaviour
     /// </summary>
     private int m_CurrProgress = 0;
 
-	void Start ()
-	{
+    void Start()
+    {
+        DelegateDefine.Instance.OnSceneLoadOk += OnSceneLoadOk;
         LayerUIMgr.Instance.Reset();
-        StartCoroutine(LoadingScene());
+        StartCoroutine(LoadingScene());       
+    }
+
+    void OnDestroy()
+    {
+        DelegateDefine.Instance.OnSceneLoadOk -= OnSceneLoadOk;
+    }
+    private void OnSceneLoadOk()
+    {
+        if (m_UILoadingCtrl != null)
+        {
+            Destroy(m_UILoadingCtrl.gameObject);
+        }
     }
 
     private IEnumerator LoadingScene()
@@ -38,15 +51,18 @@ public class LoadingSceneCtrl : MonoBehaviour
             case SceneType.City:
                 strSceneName = "GameScene_CunZhuang";
                 break;
+            case SceneType.ShaMo:
+                strSceneName = "GameScene_ShaMo";
+                break;
         }
 
-        m_Async = Application.LoadLevelAsync(strSceneName);
+        m_Async = SceneManager.LoadSceneAsync(strSceneName, LoadSceneMode.Additive);
         m_Async.allowSceneActivation = false;
         yield return m_Async;
     }
 
-	void Update ()
-	{
+    void Update()
+    {
         int toProgress = 0;
 
         if (m_Async.progress < 0.9f)

@@ -18,7 +18,7 @@ public class ScriptCreatInit : UnityEditor.AssetModificationProcessor
         if (path.EndsWith(".cs"))
         {
             string strContent = File.ReadAllText(path);
-            strContent = strContent.Replace("#AuthorName#", "边涯").Replace("#CreateTime#", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+            strContent = strContent.Replace("#AuthorName#", "QF").Replace("#CreateTime#", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
             File.WriteAllText(path, strContent);
             AssetDatabase.Refresh();
         }

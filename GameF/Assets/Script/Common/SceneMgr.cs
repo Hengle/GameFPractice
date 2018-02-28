@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using UnityEngine.SceneManagement;
 /// <summary>
 /// 场景管理器
 /// </summary>
@@ -19,7 +19,7 @@ public class SceneMgr : Singleton<SceneMgr>
     {
         CurrentSceneType = SceneType.LogOn;
         
-        Application.LoadLevel("Scene_Loading");
+        SceneManager.LoadScene("Scene_Loading");
     }
 
     /// <summary>
@@ -28,6 +28,11 @@ public class SceneMgr : Singleton<SceneMgr>
     public void LoadToCity()
     {
         CurrentSceneType = SceneType.City;
-        Application.LoadLevel("Scene_Loading");
+        SceneManager.LoadScene("Scene_Loading");
+    }
+    public void LoadToShaMo()
+    {
+        CurrentSceneType = SceneType.ShaMo;
+        SceneManager.LoadScene("Scene_Loading");
     }
 }

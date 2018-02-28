@@ -6,7 +6,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class CitySceneCtrl : MonoBehaviour 
+public class CitySceneCtrl : MonoBehaviour
 {
     /// <summary>
     /// 主角出生点
@@ -28,6 +28,14 @@ public class CitySceneCtrl : MonoBehaviour
 
     void Start()
     {
+        //加载完毕
+        if (DelegateDefine.Instance.OnSceneLoadOk != null)
+        {
+            DelegateDefine.Instance.OnSceneLoadOk();
+        }
+
+        if (GlobalInit.Instance == null) return;
+
         //加载玩家
         GameObject obj = RoleMgr.Instance.LoadRole("Role_MainPlayer", RoleType.MainPlayer);
 
@@ -35,9 +43,10 @@ public class CitySceneCtrl : MonoBehaviour
 
         //给当前玩家赋值
         GlobalInit.Instance.CurrPlayer = obj.GetComponent<RoleCtrl>();
-        GlobalInit.Instance.CurrPlayer.Init(RoleType.MainPlayer, new RoleInfoBase() { NickName = GlobalInit.Instance.CurrRoleNickName, CurrHP=10000, MaxHP=10000 }, new RoleMainPlayerCityAI(GlobalInit.Instance.CurrPlayer));
+        GlobalInit.Instance.CurrPlayer.Init(RoleType.MainPlayer, new RoleInfoBase() { NickName = GlobalInit.Instance.CurrRoleNickName, CurrHP = 10000, MaxHP = 10000 }, new RoleMainPlayerCityAI(GlobalInit.Instance.CurrPlayer));
 
         UIPlayerInfo.Instance.SetPlayerInfo();
+
     }
 
     #region OnZoom 摄像机缩放
